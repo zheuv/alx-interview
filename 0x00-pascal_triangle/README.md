@@ -1,0 +1,1 @@
+pasacal triangle
