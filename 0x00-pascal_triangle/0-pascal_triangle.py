@@ -9,7 +9,7 @@ def pascal_triangle(n):
         if index > 0:
             lastRow = matrice[-1]
             for j in range(1, index):
-                    newRow.append(lastRow[j] + lastRow[j-1])
+                newRow.append(lastRow[j] + lastRow[j-1])
             newRow.append(1)
         matrice.append(newRow)
     return matrice
