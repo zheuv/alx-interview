@@ -19,31 +19,22 @@ def canUnlockAll(boxes):
     Returns:
     bool: True if all boxes can be unlocked, False otherwise.
     """
-    keys = set()
+    keysI = set()
+    keysJ = set()
+    unlockedBoxes = {0}
     boxesLength = len(boxes)
-    unlocked = 1
 
     for i in range(boxesLength):
-        alreadyUpdatedI = False
-        alreadyUpdatedJ = False
         j = boxesLength - (i + 1)
-        if len(keys) != 0:
-            if boxes[i] != "unlocked":
-                if i in keys:
-                    keys.update(set(boxes[i]))
-                    alreadyUpdatedI = True
-                    unlocked += 1
-                    boxes[i] = "unlocked"
-            if (boxes[j] != "unlocked") and (j != 0):
-                if j in keys:
-                    keys.update(set(boxes[j]))
-                    alreadyUpdatedJ = True
-                    unlocked += 1
-                    boxes[j] = "unlocked"
-        if alreadyUpdatedI is False:
-            keys.update(set(boxes[i]))
-        if alreadyUpdatedJ is False:
-            keys.update(set(boxes[j]))
-    if unlocked == boxesLength:
+        if len(keysI) != 0:
+            if (i not in unlockedBoxes) and (i in keysI):
+                unlockedBoxes.add(i)
+        if len(keysJ) != 0:
+            if (j not in unlockedBoxes) and (j != 0) and (j in keysJ):
+                unlockedBoxes.add(j)
+        keysI.update(set(boxes[i]))
+        keysJ.update(set(boxes[j]))
+    print(unlockedBoxes)
+    if len(unlockedBoxes) == boxesLength:
         return True
     return False
