@@ -1,4 +1,4 @@
-    """
+    
     Determines if all boxes can be unlocked.
 
     Each box may contain keys to other boxes.
