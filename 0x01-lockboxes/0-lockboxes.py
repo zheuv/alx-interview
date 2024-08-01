@@ -34,7 +34,6 @@ def canUnlockAll(boxes):
                 unlockedBoxes.add(j)
         keysI.update(set(boxes[i]))
         keysJ.update(set(boxes[j]))
-    print(unlockedBoxes)
     if len(unlockedBoxes) == boxesLength:
         return True
     return False
