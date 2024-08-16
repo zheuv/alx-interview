@@ -48,7 +48,8 @@ def checkFileSize(size):
 def checkDate(date):
     """Validates if the date is in the correct format."""
     date = date[0] + " " + date[1]
-    if (date[0] == "[") and (date[-1] == "]") and can_be_interpreted_as_date(date[1:-1]):
+    if (date[0] == "[") and (date[-1] == "]") and
+    can_be_interpreted_as_date(date[1:-1]):
         return True
     return False
 
@@ -68,7 +69,8 @@ def checkStatusCode(code):
 def checkIp(ip):
     """Checks if the IP address is valid."""
     ip = ip.split('.')
-    return len(ip) == 4 and all(x is True for x in [can_be_converted_to_int(x) for x in ip])
+    return len(ip) == 4 and
+    all(x is True for x in [can_be_converted_to_int(x) for x in ip])
 
 
 def can_be_interpreted_as_date(date_string):
@@ -94,7 +96,10 @@ def checkInput(line):
     if line:
         line = line.split()
         if len(line) == 9:
-            if all(x is True for x in [checkIp(line[0]), checkDate(line[2:4]), checkGet(line[4:7]), checkStatusCode(line[7]), checkFileSize(line[8])]):
+            if all(x is True for x in [checkIp(line[0]),
+                                       checkDate(line[2:4]), checkGet(line[4:7]),
+                                       checkStatusCode(line[7]),
+                                       checkFileSize(line[8])]):
                 status_counts[int(line[7])] += 1
                 global total_size
                 total_size += int(line[8])
