@@ -1,9 +1,14 @@
-#!/usr/bin/python3
+import datetime
 import sys
 import signal
 
-# Initialize metrics
+"""
+DOc for script
+"""
+
+
 total_size = 0
+
 status_counts = {
     200: 0,
     301: 0,
@@ -14,6 +19,7 @@ status_counts = {
     405: 0,
     500: 0
 }
+
 line_count = 0
 
 def print_stats():
@@ -28,45 +34,76 @@ def signal_handler(sig, frame):
     print_stats()
     sys.exit(0)
 
-# Register the signal handler for CTRL + C
 signal.signal(signal.SIGINT, signal_handler)
+
+def checkFileSize(size):
+    """Checks if size can be converted to an integer."""
+    return can_be_converted_to_int(size)
+
+def checkDate(date):
+    """Validates if the date is in the correct format."""
+    date = date[0] + " " + date[1]
+    if (date[0] == "[") and (date[-1] == "]") and can_be_interpreted_as_date(date[1:-1]):
+        return True
+    return False
+
+def checkGet(get):
+    """Checks if the GET request matches the expected format."""
+    sentence = ['"GET', '/projects/260', 'HTTP/1.1"']
+    return get == sentence
+
+def checkStatusCode(code):
+    """Validates if the status code is one of the allowed values."""
+    possibleCodes = [200, 301, 400, 401, 403, 404, 405, 500]
+    return can_be_converted_to_int(code) and int(code) in possibleCodes
+
+def checkIp(ip):
+    """Checks if the IP address is valid."""
+    ip = ip.split('.')
+    return len(ip) == 4 and all(x is True for x in [can_be_converted_to_int(x) for x in ip])
+
+def can_be_interpreted_as_date(date_string):
+    """Checks if the string can be interpreted as a date."""
+    try:
+        datetime.datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S.%f")
+        return True
+    except ValueError:
+        return False
+
+def can_be_converted_to_int(element):
+    """Checks if the element can be converted to an integer."""
+    try:
+        int(element)
+        return True
+    except ValueError:
+        return False
+
+def checkInput(line):
+    """Validates and processes a single input line."""
+    if line:
+        line = line.split()
+        if len(line) == 9:
+            if all(x is True for x in [checkIp(line[0]), checkDate(line[2:4]), checkGet(line[4:7]), checkStatusCode(line[7]), checkFileSize(line[8])]):
+                status_counts[int(line[7])] += 1
+                global total_size
+                total_size += int(line[8])
+                return True
+    return False
 
 try:
     for line in sys.stdin:
+        print(line)
         line_count += 1
-        
         try:
-            # Split the line into components
-            parts = line.split()
-            if len(parts) < 7:
-                continue
-
-            ip_address = parts[0]
-            date = parts[3] + " " + parts[4]
-            request = parts[5] + " " + parts[6] + " " + parts[7]
-            status_code = int(parts[8])
-            file_size = int(parts[9])
-
-            # Update total file size
-            total_size += file_size
-
-            # Update status code count
-            if status_code in status_counts:
-                status_counts[status_code] += 1
-
+            if line:
+                checkInput(line)
         except (ValueError, IndexError):
-            # If there's a parsing error, skip the line
             continue
-
-        # Print stats every 10 lines
         if line_count % 10 == 0:
             print_stats()
-
 except KeyboardInterrupt:
-    # Handle any remaining stats on keyboard interruption
     print_stats()
     sys.exit(0)
 
-# Print final stats if the script ends normally
 print_stats()
 
