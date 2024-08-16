@@ -97,7 +97,8 @@ def checkInput(line):
         line = line.split()
         if len(line) == 9:
             if all(x is True for x in [checkIp(line[0]),
-                                       checkDate(line[2:4]), checkGet(line[4:7]),
+                                       checkDate(line[2:4]),
+                                       checkGet(line[4:7]),
                                        checkStatusCode(line[7]),
                                        checkFileSize(line[8])]):
                 status_counts[int(line[7])] += 1
