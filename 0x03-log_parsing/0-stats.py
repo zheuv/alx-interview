@@ -48,8 +48,8 @@ def checkFileSize(size):
 def checkDate(date):
     """Validates if the date is in the correct format."""
     date = date[0] + " " + date[1]
-    if (date[0] == "[") and (date[-1] == "]") and
-    can_be_interpreted_as_date(date[1:-1]):
+    if (date[0] == "[") and (date[-1] == "]")
+    and can_be_interpreted_as_date(date[1:-1]):
         return True
     return False
 
