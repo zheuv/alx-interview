@@ -47,11 +47,10 @@ def checkFileSize(size):
 
 def checkDate(date):
     """Validates if the date is in the correct format."""
-    date = date[0] + " " + date[1]
-    if (date[0] == "[") and (date[-1] == "]")
-    and can_be_interpreted_as_date(date[1:-1]):
-        return True
-    return False
+    date_str = date[0] + " " + date[1]
+    is_bracketed = (date_str[0] == "[") and (date_str[-1] == "]")
+    is_valid_date = can_be_interpreted_as_date(date_str[1:-1])    
+    return is_bracketed and is_valid_date
 
 
 def checkGet(get):
@@ -68,9 +67,10 @@ def checkStatusCode(code):
 
 def checkIp(ip):
     """Checks if the IP address is valid."""
-    ip = ip.split('.')
-    return len(ip) == 4 and
-    all(x is True for x in [can_be_converted_to_int(x) for x in ip])
+    ip_parts = ip.split('.')
+    has_four_parts = len(ip_parts) == 4
+    all_integers = all(can_be_converted_to_int(part) for part in ip_parts)    
+    return has_four_parts and all_integers
 
 
 def can_be_interpreted_as_date(date_string):
