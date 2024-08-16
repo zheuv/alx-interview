@@ -112,7 +112,6 @@ def checkInput(line):
 
 try:
     for line in sys.stdin:
-        print(line)
         line_count += 1
         try:
             if line:
