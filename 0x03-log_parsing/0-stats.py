@@ -49,7 +49,7 @@ def checkDate(date):
     """Validates if the date is in the correct format."""
     date_str = date[0] + " " + date[1]
     is_bracketed = (date_str[0] == "[") and (date_str[-1] == "]")
-    is_valid_date = can_be_interpreted_as_date(date_str[1:-1])    
+    is_valid_date = can_be_interpreted_as_date(date_str[1:-1])
     return is_bracketed and is_valid_date
 
 
@@ -69,7 +69,7 @@ def checkIp(ip):
     """Checks if the IP address is valid."""
     ip_parts = ip.split('.')
     has_four_parts = len(ip_parts) == 4
-    all_integers = all(can_be_converted_to_int(part) for part in ip_parts)    
+    all_integers = all(can_be_converted_to_int(part) for part in ip_parts)
     return has_four_parts and all_integers
 
 
