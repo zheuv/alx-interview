@@ -1,10 +1,12 @@
-import datetime
-import sys
-import signal
+#!/usr/bin/python3
 
 """
 DOc for script
 """
+
+import datetime
+import sys
+import signal
 
 
 total_size = 0
